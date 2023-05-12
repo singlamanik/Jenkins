@@ -44,10 +44,8 @@ pipeline {
     }
 
     post {
-        always {
-            mail to: "Singlamanik03@gmail.com",
-            subject: "Build Status Email",
-            body: "Build log Attached!"
-        }
+  emailext body: 'Build Log',
+    subject: 'Status',
+    to: 'Singlamanik03@gmail.com'
     }
 }
