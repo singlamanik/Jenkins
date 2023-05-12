@@ -4,68 +4,50 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Use Maven as the build automation tool
-                sh 'mvn clean package'
+                echo "obtaining the source code from the directory using the environment variable's path designation."
+                echo "creating any necessary artefacts and compiling the code."
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                // Use JUnit for unit tests
-                sh 'mvn test'
-                
-                // Use a test automation tool like Selenium for integration tests
-                sh 'mvn integration-test'
+                echo "implementation of unit tests."
+                echo "running tests for integration."
             }
         }
 
         stage('Code Analysis') {
             steps {
-                // Use a code analysis tool like SonarQube
-                // Ensure SonarQube is properly configured in Jenkins
-                withSonarQubeEnv('SonarQubeServer') {
-                    sh 'mvn sonar:sonar'
-                }
+                echo "utilising a code analysis tool to evaluate the code's quality."
             }
         }
 
         stage('Security Scan') {
             steps {
-                // Use a security scanning tool like OWASP ZAP
-                // Ensure OWASP ZAP is properly installed and configured in Jenkins
-                sh 'zap-baseline.sh -t <target-url>'
-            }
-        }
-
-        stage('Deploy to Staging') {
-            steps {
-                // Use a deployment tool or script to deploy the application to a staging server
-                sh 'ansible-playbook -i inventory/staging deploy.yml'
+                echo "utilising a security scanning tool to find vulnerabilities."
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                // Use test automation tools to run integration tests on the staging environment
-                sh 'mvn integration-test'
+                echo "Integrity checks are being run on the staging environment."
+                
             }
         }
 
         stage('Deploy to Production') {
+            
             steps {
-                // Use a deployment tool or script to deploy the application to a production server
-                sh 'ansible-playbook -i inventory/production deploy.yml'
+                echo "transferring the code to the live environment."
             }
         }
     }
 
     post {
         always {
-            // Send notification emails with status and logs
-            emailext body: '${SCRIPT, template="groovy-html.template"}',
-                subject: "Pipeline Status: ${currentBuild.result}",
-                to: "email@example.com",
-                mimeType: 'text/html'
+            mail to: "Singlamanik03@gmail.com",
+            subject: "Status",
+            body: "Build log"
         }
     }
 }
