@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DIRECTORY_PATH = "/Users/91947/Desktop/SIT223"
-        TESTING_ENVIRONMENT = "test-env"
-        PRODUCTION_ENVIRONMENT = "Manik Singla"
-    }
-
     stages {
         stage('Build') {
             steps {
