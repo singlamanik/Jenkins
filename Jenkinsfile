@@ -42,10 +42,4 @@ pipeline {
             }
         }
     }
-
-    post {
-  emailext body: 'Build Log',
-    subject: 'Status',
-    to: 'Singlamanik03@gmail.com'
-    }
 }
