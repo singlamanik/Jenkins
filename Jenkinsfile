@@ -4,33 +4,33 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "obtaining the source code from the directory using the environment variable's path designation."
-                echo "creating any necessary artefacts and compiling the code."
+                echo "Fetching the source code from the directory path specified by the environment variable."
+                echo "Compiling the code and generating any necessary artifacts."
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                echo "implementation of unit tests."
-                echo "running tests for integration."
+                echo "Running unit tests."
+                echo "Running integration tests."
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo "utilising a code analysis tool to evaluate the code's quality."
+                echo "Checking the quality of the code using a code analysis tool."
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo "utilising a security scanning tool to find vulnerabilities."
+                echo "Identifying vulnerabilities using a security scanning tool."
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo "Integrity checks are being run on the staging environment."
+                echo "Running integration tests on the staging environment."
                 
             }
         }
@@ -38,8 +38,25 @@ pipeline {
         stage('Deploy to Production') {
             
             steps {
-                echo "transferring the code to the live environment."
+                echo "Deploying the code to the production environment."
             }
         }
+    }
+
+    post {
+        success{
+                    emailext attachLog: true,
+                    compressLog: true,
+                    to: 'Singlamanik03@gmail.com',
+                    body: 'log is available at $JENKINS_HOME/jobs/$JOB_NAME/builds/lastSuccessfulBuild/log',
+                    subject: 'Production Deployment is Successful - Jenkins'
+                }
+                failure {  
+                    emailext attachLog: true,
+                    compressLog: true,
+                    to: 'Singlamanik03@gmail.com',
+                    body: 'log is available at $JENKINS_HOME/jobs/$JOB_NAME/builds/lastSuccessfulBuild/log',
+                    subject: "Production Deployment is Failed - Jenkins"  
+                }
     }
 }
